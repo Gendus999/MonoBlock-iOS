@@ -32,7 +32,7 @@ import UIKit
     func canPlace(_ piece: BlockPiece, row: Int, col: Int) -> Bool {
     MonoBlock.canPlace(piece, row: row, col: col, grid: state.grid)
 }
-    func canFit(_ piece: BlockPiece) -> Bool { canFit(piece, grid: state.grid) }
+    func canFit(_ piece: BlockPiece) -> Bool { MonoBlock.canFit(piece, grid: state.grid) }
     func startDrag(index: Int, point: CGPoint) {
         guard !state.gameOver, state.blasting.isEmpty, let p = state.pieces[safe: index] ?? nil else { return }
         drag = DragSnapshot(index: index, piece: p, point: point); state.selectedIndex = nil; impact(.light)
@@ -108,7 +108,7 @@ import UIKit
             if state.gameOver {notification(.error)}
         }
     }
-    private func noMoves() -> Bool { let active=state.pieces.compactMap{$0};return !active.isEmpty && !active.contains{canFit($0,grid:state.grid)} }
+    private func noMoves() -> Bool { let active=state.pieces.compactMap{$0};return !active.isEmpty && !active.contains{MonoBlock.canFit($0,grid:state.grid)} }
     private func updateHigh(_ score:Int) {let old=state.highScores[state.mode] ?? 0;if score>old {state.highScores[state.mode]=score;state.highScore=score;defaults.set(score,forKey:"HIGH_SCORE_\(state.mode.rawValue)")} }
     func restart() {clearTask?.cancel();let old=state;var s=GameSnapshot();s.highScores=old.highScores;s.mode=old.mode;s.highScore=old.highScore;s.extraordinary=old.extraordinary;s.whiteBoardBorder=old.whiteBoardBorder;s.gridBorder=old.gridBorder;s.puzzleBorder=old.puzzleBorder;s.haptics=old.haptics;s.pieces=BlockPiece.generate(allowExtraordinary:s.extraordinary,grid:s.grid,mode:s.mode);state=s;drag=DragSnapshot()}
     func setMode(_ mode:AssistantMode){state.mode=mode;state.highScore=state.highScores[mode] ?? 0;defaults.set(mode.rawValue,forKey:"ASSISTANT_MODE")}
