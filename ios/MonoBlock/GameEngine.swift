@@ -29,7 +29,9 @@ import UIKit
         state = s
     }
 
-    func canPlace(_ piece: BlockPiece, row: Int, col: Int) -> Bool { canPlace(piece, row: row, col: col, grid: state.grid) }
+    func canPlace(_ piece: BlockPiece, row: Int, col: Int) -> Bool {
+    MonoBlock.canPlace(piece, row: row, col: col, grid: state.grid)
+}
     func canFit(_ piece: BlockPiece) -> Bool { canFit(piece, grid: state.grid) }
     func startDrag(index: Int, point: CGPoint) {
         guard !state.gameOver, state.blasting.isEmpty, let p = state.pieces[safe: index] ?? nil else { return }
