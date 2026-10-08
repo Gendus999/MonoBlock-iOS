@@ -1,0 +1,25 @@
+
+name: iOS Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build MonoBlock for iOS Simulator
+        run: |
+          xcodebuild \
+            -project ios/MonoBlock.xcodeproj \
+            -scheme MonoBlock \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+  
