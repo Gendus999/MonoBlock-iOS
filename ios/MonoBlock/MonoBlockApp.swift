@@ -31,7 +31,12 @@ struct GameScreen: View {
             .onChange(of:geo.frame(in:.global)) { frame in rootOrigin=frame.origin }
             .overlay { if settings { settingsOverlay.transition(.opacity) } }
             .overlay { if engine.state.gameOver { gameOver.transition(.opacity.combined(with:.scale(scale:0.94))) } }
-            .overlay { if let p=engine.drag.piece, engine.drag.index != nil { dragOverlay(p) }.allowsHitTesting(false) }
+            .overlay {
+    if let p = engine.drag.piece, engine.drag.index != nil {
+        dragOverlay(p)
+            .allowsHitTesting(false)
+    }
+}
         }
         .statusBarHidden(false)
     }
